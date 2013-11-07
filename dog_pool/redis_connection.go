@@ -6,7 +6,6 @@ package dog_pool
 
 import "bytes"
 import "fmt"
-import "strings"
 import "time"
 import "reflect"
 import "strconv"
@@ -117,9 +116,9 @@ func (p *RedisConnection) Close() (err error) {
 // - Returns GetReply()
 //
 func (p *RedisConnection) Cmd(cmd string, args ...interface{}) *redis.Reply {
-	stop_watch := MakeStopWatch(p, p.Logger, strings.Join([]string{"Cmd", cmd}, " ")).Start()
-	defer stop_watch.LogDurationAt(log4go.TRACE)
-	defer stop_watch.Stop()
+	// stop_watch := MakeStopWatch(p, p.Logger, strings.Join([]string{"Cmd", cmd}, " ")).Start()
+	// defer stop_watch.LogDurationAt(log4go.TRACE)
+	// defer stop_watch.Stop()
 
 	p.Append(cmd, args...)
 	return p.GetReply()
@@ -151,9 +150,9 @@ func (p *RedisConnection) Append(cmd string, args ...interface{}) {
 	}
 
 	// Append the command
-	stop_watch := MakeStopWatchTags(p, p.Logger, []string{p.Url, p.Id, "Append", cmd}).Start()
+	// stop_watch := MakeStopWatchTags(p, p.Logger, []string{p.Url, p.Id, "Append", cmd}).Start()
 	p.client.Append(cmd, args...)
-	stop_watch.Stop().LogDurationAt(log4go.FINEST)
+	// stop_watch.Stop().LogDurationAt(log4go.FINEST)
 }
 
 //
@@ -168,9 +167,9 @@ func (p *RedisConnection) GetReply() *redis.Reply {
 	}
 
 	// Get the reply from redis
-	stop_watch := MakeStopWatchTags(p, p.Logger, []string{p.Url, p.Id, "GetReply"}).Start()
+	// stop_watch := MakeStopWatchTags(p, p.Logger, []string{p.Url, p.Id, "GetReply"}).Start()
 	reply := p.client.GetReply()
-	stop_watch.Stop().LogDurationAt(log4go.FINEST)
+	// stop_watch.Stop().LogDurationAt(log4go.FINEST)
 
 	var first_cmd string
 	switch {
